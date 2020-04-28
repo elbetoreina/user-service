@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+  <persistence-unit name="track-projects-Unit" transaction-type="JTA">    
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <jta-data-source>java:jboss/datasources/project_tracking_DS</jta-data-source>    
+    <properties>
+       <property name="eclipselink.logging.level" value="FINE"/>       
+    </properties>    
+  </persistence-unit>
+</persistence>

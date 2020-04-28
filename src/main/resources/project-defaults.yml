@@ -1,0 +1,24 @@
+thorntail:
+  datasources:
+    data-sources:
+      project_tracking_DS:
+        driver-name: mysql
+        connection-url: jdbc:mysql://localhost:3306/projecttracking
+        user-name: root
+        password: Sus@nit@2014
+  logging:
+    pattern-formatters:
+      LOG_FORMATTER:
+        pattern: "%d{HH:mm:ss,SSS} %p [%c] %s$e%n"
+    periodic-rotating-file-handlers:
+      FILE:
+        file:
+          path: /var/log/projecttracking/user-service/user-service.log
+        suffix: .yyyy-MM-dd
+        named-formatter: LOG_FORMATTER
+        level: INFO
+    root-logger:
+      handlers:
+        - CONSOLE
+        - FILE
+           
