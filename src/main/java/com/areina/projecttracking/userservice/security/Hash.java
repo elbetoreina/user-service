@@ -4,9 +4,12 @@ import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
+import java.util.UnknownFormatConversionException;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+
+
 
 public class Hash {
 
@@ -18,7 +21,9 @@ public class Hash {
 		PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 64 * 8);
 		SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
 		byte[] hash = skf.generateSecret(spec).getEncoded();
-		return toHex(hash) + "-" + salt;
+		String merged = toHex(hash) + "-" + salt.toString();
+		return merged;
+
 	}
 
 	private static byte[] getSalt() throws NoSuchAlgorithmException {
@@ -29,10 +34,10 @@ public class Hash {
 		return salt;
 	}
 
-	private static String toHex(byte[] array) throws NoSuchAlgorithmException {
+	private static String toHex(byte[] array) throws NoSuchAlgorithmException, UnknownFormatConversionException {
 
 		BigInteger bi = new BigInteger(1, array);
-		String hex = bi.toString(16);
+		String hex = bi.toString();
 		int paddingLength = (array.length * 2) - hex.length();
 		if (paddingLength > 0) {
 			return String.format("%0", +paddingLength + "d", 0) + hex;

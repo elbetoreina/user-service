@@ -3,9 +3,9 @@ thorntail:
     data-sources:
       project_tracking_DS:
         driver-name: mysql
-        connection-url: jdbc:mysql://localhost:3306/projecttracking
+        connection-url: jdbc:mysql://localhost:3306/ptr_user
         user-name: root
-        password: Sus@nit@2014
+        password: tutin81
   logging:
     pattern-formatters:
       LOG_FORMATTER:

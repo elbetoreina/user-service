@@ -11,6 +11,7 @@ import javax.json.bind.JsonbBuilder;
 import javax.json.bind.JsonbException;
 import javax.persistence.PersistenceException;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -114,5 +115,34 @@ public class UserController {
 			logger.error("Error serializing to JSON - " + exc);
 			return Response.status(400).build();
 		}
+	}
+
+	@DELETE
+	@Path("{id}")
+	public Response deleteUser(@PathParam("id") String id) {
+
+		Logger logger = Logger.getLogger(UserController.class);
+
+		try {
+			User user = us.getUserById(Integer.parseInt(id));
+			if (user != null) {
+				
+				logger.warn("User with ID: " + id + " will be deleted: " + user.getFirst_name() + " "
+						+ user.getLast_name() + ".");				
+				
+				us.removeUser(user);
+				
+				return Response.status(200).build();
+				
+			} else {
+				logger.warn("User with ID: " + id + " was not found.");
+				return Response.status(404).build();
+			}
+
+		} catch (IllegalArgumentException exc) {
+			logger.error("Requested ID is with incorrect format - " + exc);
+			return Response.status(400).build();
+		} 
+
 	}
 }

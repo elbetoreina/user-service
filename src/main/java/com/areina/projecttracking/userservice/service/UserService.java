@@ -70,14 +70,20 @@ public class UserService {
 
 		try {
 			logger.info("Agregando usuario:  " + user.getFirst_name() + " " + user.getLast_name());
+			
+			
 
 			if (user.getPassword() != null) {
 				String passwordWithSalt = Hash.generatePassword(user.getPassword());
+				logger.warn("Password With Salt: " + passwordWithSalt);
 				String password = passwordWithSalt.substring(0, passwordWithSalt.indexOf("-"));
 				String salt = passwordWithSalt.substring(passwordWithSalt.indexOf("-") + 1,
 						passwordWithSalt.length());
+				logger.warn("Password: " + password);
+				logger.warn("Salt: " + salt);
 				user.setPassword(password);
 				user.setSalt(salt);
+				
 				em.persist(user);
 			}
 
@@ -87,6 +93,20 @@ public class UserService {
 		} catch (EntityExistsException | IllegalArgumentException | TransactionRequiredException exc) {
 			logger.error("Error ocurred while adding user: " + exc);
 			throw new PersistenceException(exc.getMessage());
+		}
+
+	}
+	
+	public void removeUser(User user){
+
+		try {
+			
+			em.remove(user);
+			logger.warn("User with ID " + user.getID() + " removed.");
+
+		} catch (IllegalArgumentException exc) {
+			logger.error("Error ocurred while deleting user with id " + user.getID() + ": " + exc);
+			throw new IllegalArgumentException(exc.getMessage());
 		}
 
 	}
